@@ -10,8 +10,8 @@
     background-color: #0d0d14;
     color: #fff;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    overflow: hidden; /* 전체 화면 고정 후 내부 캔버스만 2D 스크롤 */
-    user-select: none; /* 드래그 시 글자 선택 방지 */
+    overflow: hidden;
+    user-select: none;
   }
 
   /* 상단 안내 바 */
@@ -42,29 +42,28 @@
   }
   #viewport:active { cursor: grabbing; }
 
-  /* 연표 전체 도화지 (가로로 긴 띠 - 크기 조절 가능) */
+  /* 연표 전체 도화지 (카드 16개가 다 들어가도록 가로 폭을 5400px로 넉넉하게 확장) */
   #canvas {
-    width: 3000px;
+    width: 5400px;
     height: 1200px;
     position: relative;
-    /* ★ 전체 배경 이미지 주소 변경 위치 ★ */
     background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=2000&q=80');
     background-size: cover;
     background-position: center;
   }
 
-  /* 도화지 위 어두운 틴트 (카드 가독성 확보) */
+  /* 도화지 위 어두운 틴트 */
   #canvas::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(10, 10, 18, 0.55);
+    background: rgba(10, 10, 18, 0.6);
   }
 
-  /* 중앙을 가로지르는 메인 시간선 */
+  /* 중앙 시간선 */
   .timeline-axis {
     position: absolute;
-    top: 600px; /* canvas height의 절반 */
+    top: 600px;
     left: 0;
     width: 100%;
     height: 3px;
@@ -94,7 +93,7 @@
     z-index: 10;
   }
 
-  /* 카드 내부 텍스트 보호용 그라데이션 오버레이 */
+  /* 카드 내부 텍스트 오버레이 */
   .card-overlay {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.88));
     padding: 18px;
@@ -137,7 +136,7 @@
     <div id="canvas">
       <div class="timeline-axis"></div>
 
-      <!-- 메인스 -->
+      <!-- EP.1 -->
       <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.1</div>
@@ -145,160 +144,105 @@
           <div class="event-desc">기름값은 되겠군요.</div>
         </div>
       </div>
-     <!-- 분단선2 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+      
+      <!-- EP.2 -->
+      <div class="event-card" style="top: 660px; left: 480px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.2</div>
           <div class="event-title">리플레이서</div>
           <div class="event-desc">이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?</div>
         </div>
       </div>
-     <!-- 분단선3 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.3 -->
+      <div class="event-card" style="top: 320px; left: 810px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.3</div>
           <div class="event-title">옛 인연</div>
           <div class="event-desc">Auld Lang Syne</div>
         </div>
       </div>
-     <!-- 분단선4 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.4 -->
+      <div class="event-card" style="top: 660px; left: 1140px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.4</div>
           <div class="event-title">테라사이드 상</div>
           <div class="event-desc">리플 킹, 강림.</div>
         </div>
       </div>
-     <!-- 분단선5 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.5 -->
+      <div class="event-card" style="top: 320px; left: 1470px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.5</div>
           <div class="event-title">테라사이드 하</div>
           <div class="event-desc">킹을 처리하다. 그리고 리플룩을 줍다.</div>
         </div>
       </div>
-     <!-- 분단선6 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.6 -->
+      <div class="event-card" style="top: 660px; left: 1800px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.6</div>
           <div class="event-title">징조</div>
           <div class="event-desc">유미나의 일상 (희소하다)</div>
         </div>
       </div>
-     <!-- 분단선7 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.7 -->
+      <div class="event-card" style="top: 320px; left: 2130px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.7</div>
           <div class="event-title">구도자</div>
           <div class="event-desc">쏠 수 있어..!!!</div>
         </div>
       </div>
-     <!-- 분단선8 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.8 -->
+      <div class="event-card" style="top: 660px; left: 2460px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.8</div>
           <div class="event-title">폭풍을 부르는 자</div>
           <div class="event-desc">T5가 좋댄다</div>
         </div>
       </div>
-     <!-- 분단선9 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.9 -->
+      <div class="event-card" style="top: 320px; left: 2790px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.9</div>
           <div class="event-title">클리포트 게임 Part 1</div>
           <div class="event-desc">서로 포기하지 못하는 것이 있는거겠지.</div>
         </div>
       </div>
-     <!-- 분단선10 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.9.5 -->
+      <div class="event-card" style="top: 660px; left: 3120px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.9.5</div>
           <div class="event-title">다정한 자와 무정한 자</div>
           <div class="event-desc">가라앉다(물리)</div>
         </div>
       </div>
-     <!-- 분단선11 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.10 -->
+      <div class="event-card" style="top: 320px; left: 3450px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.10</div>
           <div class="event-title">클리포트 게임 Part 2</div>
           <div class="event-desc">구원기사단, 그 여정의 마지막.</div>
         </div>
       </div>
-     <!-- 분단선12 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
+
+      <!-- EP.11 -->
+      <div class="event-card" style="top: 660px; left: 3780px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
         <div class="card-overlay">
           <div class="event-era" style="color: #4cc9f0;">EP.11</div>
           <div class="event-title">엑자일러</div>
           <div class="event-desc">영겁의 시간을 오로지 망집만으로 버텨왔다.</div>
         </div>
       </div>
-     <!-- 분단선13 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
-        <div class="card-overlay">
-          <div class="event-era" style="color: #4cc9f0;">EP.12</div>
-          <div class="event-title">기억 화원</div>
-          <div class="event-desc"></div>
-        </div>
-      </div>
-     <!-- 분단선14 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
-        <div class="card-overlay">
-          <div class="event-era" style="color: #4cc9f0;">EP.13</div>
-          <div class="event-title">세계를 만드는 법칙</div>
-          <div class="event-desc">이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.</div>
-        </div>
-      </div>
-     <!-- 분단선15 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
-        <div class="card-overlay">
-          <div class="event-era" style="color: #4cc9f0;">EP.14</div>
-          <div class="event-title">바라</div>
-          <div class="event-desc">범 잡으러 가오.</div>
-        </div>
-      </div>
-     <!-- 분단선16 -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80');">
-        <div class="card-overlay">
-          <div class="event-era" style="color: #4cc9f0;">EP.15</div>
-          <div class="event-title">황금나무와 가지치는 소녀</div>
-          <div class="event-desc">낙원에 안주하는 것 대신, 우리는 나아가기를 택했다.</div>
-        </div>
-      </div>
-     
 
-      
-
-    </div>
-  </div>
-
-  <!-- 마우스 클릭 후 드래그로 2차원 스크롤 지원 스크립트 -->
-  <script>
-    const viewport = document.getElementById('viewport');
-    let isDown = false, startX, startY, scrollLeft, scrollTop;
-
-    // 초기 시작 위치를 세로 중앙 부근으로 맞춤
-    window.addEventListener('load', () => {
-      viewport.scrollTop = 250;
-    });
-
-    viewport.addEventListener('mousedown', (e) => {
-      isDown = true;
-      startX = e.pageX - viewport.offsetLeft;
-      startY = e.pageY - viewport.offsetTop;
-      scrollLeft = viewport.scrollLeft;
-      scrollTop = viewport.scrollTop;
-    });
-    viewport.addEventListener('mouseleave', () => { isDown = false; });
-    viewport.addEventListener('mouseup', () => { isDown = false; });
-    viewport.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - viewport.offsetLeft;
-      const y = e.pageY - viewport.offsetTop;
-      viewport.scrollLeft = scrollLeft - (x - startX) * 1.3;
-      viewport.scrollTop = scrollTop - (y - startY) * 1.3;
-    });
-  </script>
-</body>
-</html>
+      <!-- EP.12 -->
+      <div class="event-card" style="top: 320px; left: 4110px; background-image: url('
