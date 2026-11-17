@@ -36,6 +36,24 @@
   .header-title { font-weight: bold; color: #4cc9f0; white-space: nowrap; }
   .header-tip { color: #aaa; font-size: 11.5px; text-align: right; margin-left: 10px; }
 
+  /* 실시간 마우스 좌표 표시기 (우측 하단) */
+  #coord-hud {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(15, 15, 25, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(76, 201, 240, 0.45);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    color: #4cc9f0;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+  }
+
   /* 전체 화면 뷰포트 */
   #viewport {
     width: 100vw;
@@ -146,6 +164,9 @@
     <div class="header-tip">💡 탭/클릭: 요약 펼치기 | 드래그: 이동 | 휠·두손가락: 확대/축소</div>
   </div>
 
+  <!-- 실시간 좌표 표시 박스 -->
+  <div id="coord-hud">left: 0, top: 0 (100%)</div>
+
   <div id="viewport">
     <div id="canvas">
       <div class="timeline-axis"></div>
@@ -154,7 +175,6 @@
   </div>
 
   <script>
-    // 모든 카드의 left 좌표가 2배로 확장된 데이터 배열
     const timelineData = [
       { name: "어벤저", sub: "요정을 찾는 소녀", desc: "요정을 찾는 소녀의 이야기.", left: 200, top: 680 },
       { name: "앨리스 이머전시", sub: "구 관리국 : 야크샤 전대", desc: "구 관리국 야크샤 전대의 기록.", left: 900, top: 340 },
@@ -237,6 +257,7 @@
     const canvas = document.getElementById('canvas');
     const container = document.getElementById('card-container');
     const viewport = document.getElementById('viewport');
+    const coordHud = document.getElementById('coord-hud');
 
     let posX = 0;
     let posY = -100;
@@ -245,12 +266,23 @@
     let hasMoved = false;
     let startX = 0;
     let startY = 0;
+    let lastClientX = 0;
+    let lastClientY = 0;
 
     let initialPinchDistance = null;
     let initialScale = 1;
 
+    function updateCoordDisplay(clientX, clientY) {
+      const rect = viewport.getBoundingClientRect();
+      const canvasX = Math.round((clientX - rect.left - posX) / scale);
+      const canvasY = Math.round((clientY - rect.top - posY) / scale);
+      const zoomPercent = Math.round(scale * 100);
+      coordHud.textContent = `left: ${canvasX}, top: ${canvasY} (${zoomPercent}%)`;
+    }
+
     function updateTransform() {
       canvas.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+      updateCoordDisplay(lastClientX, lastClientY);
     }
     updateTransform();
 
@@ -267,6 +299,8 @@
       posY = pointerY - canvasY * newScale;
       scale = newScale;
 
+      lastClientX = clientX;
+      lastClientY = clientY;
       updateTransform();
     }
 
@@ -306,6 +340,10 @@
     });
 
     window.addEventListener('mousemove', (e) => {
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      updateCoordDisplay(e.clientX, e.clientY);
+
       if (!isDragging) return;
       const nextX = e.clientX - startX;
       const nextY = e.clientY - startY;
@@ -344,8 +382,11 @@
       if (e.touches.length === 1) {
         isDragging = true;
         hasMoved = false;
+        lastClientX = e.touches[0].clientX;
+        lastClientY = e.touches[0].clientY;
         startX = e.touches[0].clientX - posX;
         startY = e.touches[0].clientY - posY;
+        updateCoordDisplay(lastClientX, lastClientY);
       } else if (e.touches.length === 2) {
         isDragging = false;
         hasMoved = true;
@@ -357,6 +398,8 @@
     viewport.addEventListener('touchmove', (e) => {
       e.preventDefault();
       if (e.touches.length === 1 && isDragging) {
+        lastClientX = e.touches[0].clientX;
+        lastClientY = e.touches[0].clientY;
         const nextX = e.touches[0].clientX - startX;
         const nextY = e.touches[0].clientY - startY;
         if (Math.abs(nextX - posX) > 4 || Math.abs(nextY - posY) > 4) {
