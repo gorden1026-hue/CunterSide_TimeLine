@@ -15,7 +15,7 @@
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none; /* 브라우저 기본 핀치/스크롤 방지 */
+    touch-action: none;
   }
 
   /* 상단 안내 바 */
@@ -154,83 +154,84 @@
   </div>
 
   <script>
+    // 모든 카드의 left 좌표가 2배로 확장된 데이터 배열
     const timelineData = [
-      { name: "어벤저", sub: "요정을 찾는 소녀", desc: "요정을 찾는 소녀의 이야기.", left: 100, top: 680 },
-      { name: "앨리스 이머전시", sub: "구 관리국 : 야크샤 전대", desc: "구 관리국 야크샤 전대의 기록.", left: 450, top: 340 },
-      { name: "관리 실패", sub: "구 관리국", desc: "구 관리국의 붕괴와 관리 실패의 날.", left: 620, top: 520 },
-      { name: "EP.1", sub: "메인스트림 - 신입사원", desc: "기름값은 되겠군요.", left: 1150, top: 520, isMain: true },
-      { name: "마지막 벚꽃이 피는 교정", sub: "신학기 조회", desc: "신학기 조회에서 벌어진 일.", left: 1220, top: 280 },
-      { name: "야차의 법도", sub: "짝을 찾는 암살자", desc: "짝을 찾는 암살자의 이야기.", left: 1220, top: 760 },
-      { name: "총탄과 가시", sub: "존 메이슨", desc: "존 메이슨 용병 사무소의 의뢰.", left: 1580, top: 200 },
-      { name: "EP.2", sub: "메인스트림 - 리플레이서", desc: "이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?", left: 1620, top: 520, isMain: true },
-      { name: "어떤 소녀와 용병의 이야기", sub: "오르카", desc: "오르카와 용병의 만남.", left: 1750, top: 760 },
-      { name: "용병과 괴도 그리고…", sub: "메이슨 용병 사무소", desc: "메이슨 용병 사무소와 괴도의 악연.", left: 1980, top: 200 },
-      { name: "비공식 수사", sub: "제4기동", desc: "제4기동수사국의 비공식 수사 기록.", left: 2050, top: 360 },
-      { name: "EP.3", sub: "메인스트림 - 옛 인연", desc: "Auld Lang Syne", left: 2150, top: 520, isMain: true },
+      { name: "어벤저", sub: "요정을 찾는 소녀", desc: "요정을 찾는 소녀의 이야기.", left: 200, top: 680 },
+      { name: "앨리스 이머전시", sub: "구 관리국 : 야크샤 전대", desc: "구 관리국 야크샤 전대의 기록.", left: 900, top: 340 },
+      { name: "관리 실패", sub: "구 관리국", desc: "구 관리국의 붕괴와 관리 실패의 날.", left: 1240, top: 520 },
+      { name: "EP.1", sub: "메인스트림 - 신입사원", desc: "기름값은 되겠군요.", left: 2300, top: 520, isMain: true },
+      { name: "마지막 벚꽃이 피는 교정", sub: "신학기 조회", desc: "신학기 조회에서 벌어진 일.", left: 2440, top: 280 },
+      { name: "야차의 법도", sub: "짝을 찾는 암살자", desc: "짝을 찾는 암살자의 이야기.", left: 2440, top: 760 },
+      { name: "총탄과 가시", sub: "존 메이슨", desc: "존 메이슨 용병 사무소의 의뢰.", left: 3160, top: 200 },
+      { name: "EP.2", sub: "메인스트림 - 리플레이서", desc: "이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?", left: 3240, top: 520, isMain: true },
+      { name: "어떤 소녀와 용병의 이야기", sub: "오르카", desc: "오르카와 용병의 만남.", left: 3500, top: 760 },
+      { name: "용병과 괴도 그리고…", sub: "메이슨 용병 사무소", desc: "메이슨 용병 사무소와 괴도의 악연.", left: 3960, top: 200 },
+      { name: "비공식 수사", sub: "제4기동", desc: "제4기동수사국의 비공식 수사 기록.", left: 4100, top: 360 },
+      { name: "EP.3", sub: "메인스트림 - 옛 인연", desc: "Auld Lang Syne", left: 4300, top: 520, isMain: true },
 
-      { name: "오퍼레이션 패스파인더", sub: "크로스로드", desc: "차원 항해 작전 패스파인더.", left: 2550, top: 300 },
-      { name: "데드 엔드 로드", sub: "델타 세븐 : 패스파인더", desc: "델타 세븐 패스파인더 부대의 사투.", left: 2750, top: 470 },
-      { name: "EP.4", sub: "메인스트림 - 테라사이드 상", desc: "리플 킹, 강림.", left: 2550, top: 700, isMain: true },
-      { name: "왕의 기억", sub: "심연의 끝에서", desc: "심연의 끝에서 마주한 왕의 기억.", left: 2950, top: 200 },
-      { name: "이어받는 자", sub: "델타 세븐", desc: "델타 세븐의 의지를 이어받는 자.", left: 3150, top: 340 },
-      { name: "EP.5", sub: "메인스트림 - 테라사이드 하", desc: "킹을 처리하다. 그리고 리플룩을 줍다.", left: 3150, top: 520, isMain: true },
-      { name: "그늘의 밑바닥", sub: "호라이즌 파이낸스", desc: "호라이즌 파이낸스의 이면.", left: 3300, top: 740 },
-      { name: "카운터즈 사가", sub: "서브컬처 연구회", desc: "서브컬처 연구회의 좌충우돌 일대기.", left: 3550, top: 380 },
-      { name: "오래된 공포", sub: "금지된 지식의 추종자들", desc: "금지된 지식을 쫓는 자들과 오래된 공포.", left: 3650, top: 600 },
-      { name: "털뭉치를 찾아라!", sub: "특별 수사", desc: "사라진 털뭉치를 찾아 떠나는 특별 수사.", left: 3800, top: 200 },
-      { name: "부서지지 않는 꽃", sub: "플로라 메이드 서비스", desc: "플로라 메이드 서비스의 이야기.", left: 4050, top: 330 },
-      { name: "홀로 남겨진 것", sub: "시그마", desc: "홀로 남겨진 존재, 시그마의 기록.", left: 4050, top: 480 },
-      { name: "미로의 끝", sub: "구 관리국 : 메이즈 전대", desc: "구 관리국 메이즈 전대의 마지막 항전.", left: 3950, top: 740 },
-      { name: "당신이 모르는 소원", sub: "아카데미 운동회", desc: "아카데미 운동회에서 펼쳐지는 소동.", left: 4400, top: 200 },
-      { name: "대마녀의 유산", sub: "카페 스트레가", desc: "카페 스트레가와 대마녀의 유산.", left: 4450, top: 560 },
-      { name: "A.R.S 특별 부활동", sub: "화이트 래빗", desc: "화이트 래빗의 특별 부활동 일지.", left: 4750, top: 200 },
-      { name: "EP.6", sub: "메인스트림 - 징조", desc: "유미나의 일상 (희소하다)", left: 4750, top: 360, isMain: true },
-      { name: "울브즈 베인 언체인드", sub: "타입 : 펜릴", desc: "봉인 해제된 펜릴의 힘.", left: 4850, top: 520 },
+      { name: "오퍼레이션 패스파인더", sub: "크로스로드", desc: "차원 항해 작전 패스파인더.", left: 5100, top: 300 },
+      { name: "데드 엔드 로드", sub: "델타 세븐 : 패스파인더", desc: "델타 세븐 패스파인더 부대의 사투.", left: 5500, top: 470 },
+      { name: "EP.4", sub: "메인스트림 - 테라사이드 상", desc: "리플 킹, 강림.", left: 5100, top: 700, isMain: true },
+      { name: "왕의 기억", sub: "심연의 끝에서", desc: "심연의 끝에서 마주한 왕의 기억.", left: 5900, top: 200 },
+      { name: "이어받는 자", sub: "델타 세븐", desc: "델타 세븐의 의지를 이어받는 자.", left: 6300, top: 340 },
+      { name: "EP.5", sub: "메인스트림 - 테라사이드 하", desc: "킹을 처리하다. 그리고 리플룩을 줍다.", left: 6300, top: 520, isMain: true },
+      { name: "그늘의 밑바닥", sub: "호라이즌 파이낸스", desc: "호라이즌 파이낸스의 이면.", left: 6600, top: 740 },
+      { name: "카운터즈 사가", sub: "서브컬처 연구회", desc: "서브컬처 연구회의 좌충우돌 일대기.", left: 7100, top: 380 },
+      { name: "오래된 공포", sub: "금지된 지식의 추종자들", desc: "금지된 지식을 쫓는 자들과 오래된 공포.", left: 7300, top: 600 },
+      { name: "털뭉치를 찾아라!", sub: "특별 수사", desc: "사라진 털뭉치를 찾아 떠나는 특별 수사.", left: 7600, top: 200 },
+      { name: "부서지지 않는 꽃", sub: "플로라 메이드 서비스", desc: "플로라 메이드 서비스의 이야기.", left: 8100, top: 330 },
+      { name: "홀로 남겨진 것", sub: "시그마", desc: "홀로 남겨진 존재, 시그마의 기록.", left: 8100, top: 480 },
+      { name: "미로의 끝", sub: "구 관리국 : 메이즈 전대", desc: "구 관리국 메이즈 전대의 마지막 항전.", left: 7900, top: 740 },
+      { name: "당신이 모르는 소원", sub: "아카데미 운동회", desc: "아카데미 운동회에서 펼쳐지는 소동.", left: 8800, top: 200 },
+      { name: "대마녀의 유산", sub: "카페 스트레가", desc: "카페 스트레가와 대마녀의 유산.", left: 8900, top: 560 },
+      { name: "A.R.S 특별 부활동", sub: "화이트 래빗", desc: "화이트 래빗의 특별 부활동 일지.", left: 9500, top: 200 },
+      { name: "EP.6", sub: "메인스트림 - 징조", desc: "유미나의 일상 (희소하다)", left: 9500, top: 360, isMain: true },
+      { name: "울브즈 베인 언체인드", sub: "타입 : 펜릴", desc: "봉인 해제된 펜릴의 힘.", left: 9700, top: 520 },
 
-      { name: "들려오는 너", sub: "꿈을 걷는 50호선", desc: "꿈을 걷는 50호선 열차의 기묘한 이야기.", left: 5150, top: 740 },
-      { name: "EP.7", sub: "메인스트림 - 구도자", desc: "쏠 수 있어..!!!", left: 5380, top: 360, isMain: true },
-      { name: "첫 번째 수업", sub: "사이 좋게 지내요", desc: "아카데미의 첫 번째 수업.", left: 5400, top: 540 },
-      { name: "해를 부르는 궤적", sub: "나나하라 가문연합", desc: "나나하라 가문연합의 새로운 궤적.", left: 5500, top: 200 },
-      { name: "약한 자와 강한 자", sub: "민병대", desc: "민병대가 마주한 약육강식의 현실.", left: 5750, top: 680 },
-      { name: "마음의 증명", sub: "알파트릭스 이노베이션", desc: "알파트릭스 이노베이션과 마음의 증명.", left: 6050, top: 440 },
-      { name: "달을 가르는 무형", sub: "나나하라 가문연합", desc: "달을 가르는 검의 궤적.", left: 6050, top: 200 },
-      { name: "울지 않은 너를 위해", sub: "호라이즌 파이낸스", desc: "호라이즌과 친구들의 눈물 없는 이별.", left: 6080, top: 640 },
-      { name: "EP.8", sub: "메인스트림 - 폭풍을 부르는 자", desc: "T5가 좋댄다", left: 6550, top: 320, isMain: true },
-      { name: "악마, 그리고 바텐더", sub: "그레모리의 바", desc: "그레모리의 바에서 나누는 밤의 대화.", left: 6620, top: 740 },
-      { name: "의뢰와 모략", sub: "폴른 호크", desc: "폴른 호크를 둘러싼 의뢰와 모략.", left: 6820, top: 180 },
-      { name: "내 소원은…", sub: "프로젝트 오즈", desc: "프로젝트 오즈 소녀들의 간절한 소원.", left: 6950, top: 460 },
-      { name: "사육제", sub: "엘리시움 필하모닉", desc: "엘리시움 필하모닉이 연주하는 광기의 사육제.", left: 7150, top: 620 },
-      { name: "철의 기수", sub: "남부 국경수비대", desc: "남부 국경수비대 철의 기수 출격.", left: 7300, top: 760 },
+      { name: "들려오는 너", sub: "꿈을 걷는 50호선", desc: "꿈을 걷는 50호선 열차의 기묘한 이야기.", left: 10300, top: 740 },
+      { name: "EP.7", sub: "메인스트림 - 구도자", desc: "쏠 수 있어..!!!", left: 10760, top: 360, isMain: true },
+      { name: "첫 번째 수업", sub: "사이 좋게 지내요", desc: "아카데미의 첫 번째 수업.", left: 10800, top: 540 },
+      { name: "해를 부르는 궤적", sub: "나나하라 가문연합", desc: "나나하라 가문연합의 새로운 궤적.", left: 11000, top: 200 },
+      { name: "약한 자와 강한 자", sub: "민병대", desc: "민병대가 마주한 약육강식의 현실.", left: 11500, top: 680 },
+      { name: "마음의 증명", sub: "알파트릭스 이노베이션", desc: "알파트릭스 이노베이션과 마음의 증명.", left: 12100, top: 440 },
+      { name: "달을 가르는 무형", sub: "나나하라 가문연합", desc: "달을 가르는 검의 궤적.", left: 12100, top: 200 },
+      { name: "울지 않은 너를 위해", sub: "호라이즌 파이낸스", desc: "호라이즌과 친구들의 눈물 없는 이별.", left: 12160, top: 640 },
+      { name: "EP.8", sub: "메인스트림 - 폭풍을 부르는 자", desc: "T5가 좋댄다", left: 13100, top: 320, isMain: true },
+      { name: "악마, 그리고 바텐더", sub: "그레모리의 바", desc: "그레모리의 바에서 나누는 밤의 대화.", left: 13240, top: 740 },
+      { name: "의뢰와 모략", sub: "폴른 호크", desc: "폴른 호크를 둘러싼 의뢰와 모략.", left: 13640, top: 180 },
+      { name: "내 소원은…", sub: "프로젝트 오즈", desc: "프로젝트 오즈 소녀들의 간절한 소원.", left: 13900, top: 460 },
+      { name: "사육제", sub: "엘리시움 필하모닉", desc: "엘리시움 필하모닉이 연주하는 광기의 사육제.", left: 14300, top: 620 },
+      { name: "철의 기수", sub: "남부 국경수비대", desc: "남부 국경수비대 철의 기수 출격.", left: 14600, top: 760 },
 
-      { name: "달이 뜨지 않는 밤", sub: "악몽의 기억", desc: "달이 뜨지 않는 밤의 악몽.", left: 7550, top: 480 },
-      { name: "네버랜드 네버모어", sub: "성장통", desc: "성장통을 겪는 아이들의 네버랜드.", left: 7850, top: 380 },
-      { name: "Three to Three", sub: "제 9호 기적심의회", desc: "제 9호 기적심의회의 심판.", left: 7950, top: 740 },
-      { name: "EP.9", sub: "메인스트림 - 클리포트 게임 Part 1", desc: "서로 포기하지 못하는 것이 있는거겠지.", left: 8250, top: 200, isMain: true },
-      { name: "EP.9.5", sub: "메인스트림 - 다정한 자와 무정한 자", desc: "가라앉다(물리)", left: 8250, top: 330, isMain: true },
-      { name: "빙류회랑", sub: "얼어붙은 시간에서", desc: "얼어붙은 시간 속 빙류회랑의 기록.", left: 8280, top: 530 },
-      { name: "EP.10", sub: "메인스트림 - 클리포트 게임 Part 2", desc: "구원기사단, 그 여정의 마지막.", left: 8800, top: 530, isMain: true },
-      { name: "마녀의 피로연", sub: "카페 스트레가", desc: "카페 스트레가에서 열리는 마녀들의 피로연.", left: 8880, top: 250 },
-      { name: "굿바이 타나베린", sub: "그리핀 라이더", desc: "그리핀 라이더의 마지막 인사.", left: 9050, top: 740 },
-      { name: "관리 종료", sub: "공개채용", desc: "공개채용과 관리 종료의 순간.", left: 9250, top: 530 },
-      { name: "리틀, 빈센트", sub: "사이프러스의 봄", desc: "사이프러스의 봄을 맞이한 빈센트.", left: 9400, top: 300 },
-      { name: "지난날의 약속", sub: "서브컬처 연구회", desc: "서브컬처 연구회가 지켜낸 지난날의 약속.", left: 9400, top: 740 },
-      { name: "별이 빛나는 밤", sub: "붉은 포도밭", desc: "붉은 포도밭 위에 수놓아진 별밤.", left: 9720, top: 300 },
+      { name: "달이 뜨지 않는 밤", sub: "악몽의 기억", desc: "달이 뜨지 않는 밤의 악몽.", left: 15100, top: 480 },
+      { name: "네버랜드 네버모어", sub: "성장통", desc: "성장통을 겪는 아이들의 네버랜드.", left: 15700, top: 380 },
+      { name: "Three to Three", sub: "제 9호 기적심의회", desc: "제 9호 기적심의회의 심판.", left: 15900, top: 740 },
+      { name: "EP.9", sub: "메인스트림 - 클리포트 게임 Part 1", desc: "서로 포기하지 못하는 것이 있는거겠지.", left: 16500, top: 200, isMain: true },
+      { name: "EP.9.5", sub: "메인스트림 - 다정한 자와 무정한 자", desc: "가라앉다(물리)", left: 16500, top: 330, isMain: true },
+      { name: "빙류회랑", sub: "얼어붙은 시간에서", desc: "얼어붙은 시간 속 빙류회랑의 기록.", left: 16560, top: 530 },
+      { name: "EP.10", sub: "메인스트림 - 클리포트 게임 Part 2", desc: "구원기사단, 그 여정의 마지막.", left: 17600, top: 530, isMain: true },
+      { name: "마녀의 피로연", sub: "카페 스트레가", desc: "카페 스트레가에서 열리는 마녀들의 피로연.", left: 17760, top: 250 },
+      { name: "굿바이 타나베린", sub: "그리핀 라이더", desc: "그리핀 라이더의 마지막 인사.", left: 18100, top: 740 },
+      { name: "관리 종료", sub: "공개채용", desc: "공개채용과 관리 종료의 순간.", left: 18500, top: 530 },
+      { name: "리틀, 빈센트", sub: "사이프러스의 봄", desc: "사이프러스의 봄을 맞이한 빈센트.", left: 18800, top: 300 },
+      { name: "지난날의 약속", sub: "서브컬처 연구회", desc: "서브컬처 연구회가 지켜낸 지난날의 약속.", left: 18800, top: 740 },
+      { name: "별이 빛나는 밤", sub: "붉은 포도밭", desc: "붉은 포도밭 위에 수놓아진 별밤.", left: 19440, top: 300 },
 
-      { name: "카운터즈 레거시", sub: "관리국 카운터 아카데미", desc: "관리국 카운터 아카데미의 유산.", left: 9750, top: 740 },
-      { name: "EP.11", sub: "메인스트림 - 엑자일러", desc: "영겁의 시간을 오로지 망집만으로 버텨왔다.", left: 10100, top: 530, isMain: true },
-      { name: "버넷 네버 다이", sub: "프리드웬 기관", desc: "프리드웬 기관의 불굴의 의지.", left: 10100, top: 740 },
-      { name: "폴른 플로어", sub: "사후 비인가 실험", desc: "사후 비인가 실험실 폴른 플로어.", left: 10300, top: 220 },
-      { name: "무대 뒤편의 세계", sub: "스완송", desc: "스완송, 무대 뒤편에서 울리는 노래.", left: 10420, top: 380 },
-      { name: "프라이드 오브 나이츠", sub: "조디악 나이츠", desc: "조디악 나이츠 기사단의 긍지.", left: 10420, top: 740 },
-      { name: "인도하는 태양", sub: "바루나 투어", desc: "바루나 투어와 인도하는 태양의 빛.", left: 10620, top: 220 },
-      { name: "마트료시카 인형", sub: "인형관", desc: "인형관에 숨겨진 마트료시카의 비밀.", left: 10740, top: 740 },
-      { name: "EP.12", sub: "메인스트림 - 기억 화원", desc: "당신에게 저의 세상은 그저 버림패일 뿐이였나요?", left: 10900, top: 530, isMain: true },
-      { name: "월광", sub: "발렌티누스 수도원", desc: "발렌티누스 수도원에 비치는 차가운 월광.", left: 10950, top: 220 },
-      { name: "EP.13", sub: "메인스트림 - 세계를 만드는 법칙", desc: "이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.", left: 11350, top: 530, isMain: true },
-      { name: "겨울 방학", sub: "황새가 물어온 별", desc: "황새가 물어온 별과 따뜻한 겨울 방학.", left: 11550, top: 740 },
-      { name: "EP.14", sub: "메인스트림 - 바라", desc: "범 잡으러 가오.", left: 11800, top: 530, isMain: true },
-      { name: "전조", sub: "클리포트", desc: "다가오는 거대한 재앙의 전조.", left: 12250, top: 530 },
-      { name: "EP.15", sub: "메인스트림 - 황금나무와 가지치는 소녀", desc: "낙원에 안주하는 것 대신, 우리는 나아가기를 택했다.", left: 12700, top: 530, isMain: true }
+      { name: "카운터즈 레거시", sub: "관리국 카운터 아카데미", desc: "관리국 카운터 아카데미의 유산.", left: 19500, top: 740 },
+      { name: "EP.11", sub: "메인스트림 - 엑자일러", desc: "영겁의 시간을 오로지 망집만으로 버텨왔다.", left: 20200, top: 530, isMain: true },
+      { name: "버넷 네버 다이", sub: "프리드웬 기관", desc: "프리드웬 기관의 불굴의 의지.", left: 20200, top: 740 },
+      { name: "폴른 플로어", sub: "사후 비인가 실험", desc: "사후 비인가 실험실 폴른 플로어.", left: 20600, top: 220 },
+      { name: "무대 뒤편의 세계", sub: "스완송", desc: "스완송, 무대 뒤편에서 울리는 노래.", left: 20840, top: 380 },
+      { name: "프라이드 오브 나이츠", sub: "조디악 나이츠", desc: "조디악 나이츠 기사단의 긍지.", left: 20840, top: 740 },
+      { name: "인도하는 태양", sub: "바루나 투어", desc: "바루나 투어와 인도하는 태양의 빛.", left: 21240, top: 220 },
+      { name: "마트료시카 인형", sub: "인형관", desc: "인형관에 숨겨진 마트료시카의 비밀.", left: 21480, top: 740 },
+      { name: "EP.12", sub: "메인스트림 - 기억 화원", desc: "당신에게 저의 세상은 그저 버림패일 뿐이였나요?", left: 21800, top: 530, isMain: true },
+      { name: "월광", sub: "발렌티누스 수도원", desc: "발렌티누스 수도원에 비치는 차가운 월광.", left: 21900, top: 220 },
+      { name: "EP.13", sub: "메인스트림 - 세계를 만드는 법칙", desc: "이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.", left: 22700, top: 530, isMain: true },
+      { name: "겨울 방학", sub: "황새가 물어온 별", desc: "황새가 물어온 별과 따뜻한 겨울 방학.", left: 23100, top: 740 },
+      { name: "EP.14", sub: "메인스트림 - 바라", desc: "범 잡으러 가오.", left: 23600, top: 530, isMain: true },
+      { name: "전조", sub: "클리포트", desc: "다가오는 거대한 재앙의 전조.", left: 24500, top: 530 },
+      { name: "EP.15", sub: "메인스트림 - 황금나무와 가지치는 소녀", desc: "낙원에 안주하는 것 대신, 우리는 나아가기를 택했다.", left: 25400, top: 530, isMain: true }
     ];
 
     const canvas = document.getElementById('canvas');
@@ -241,11 +242,10 @@
     let posY = -100;
     let scale = 0.85;
     let isDragging = false;
-    let hasMoved = false; // 드래그와 단순 클릭 구분용 플래그
+    let hasMoved = false;
     let startX = 0;
     let startY = 0;
 
-    // 모바일 핀치 줌 변수
     let initialPinchDistance = null;
     let initialScale = 1;
 
@@ -254,18 +254,15 @@
     }
     updateTransform();
 
-    // 특정 화면 좌표(clientX, clientY)를 기준으로 배율 변경
     function zoomAtPoint(newScale, clientX, clientY) {
-      newScale = Math.min(Math.max(0.2, newScale), 2.5);
+      newScale = Math.min(Math.max(0.15, newScale), 2.5);
       const rect = viewport.getBoundingClientRect();
       const pointerX = clientX - rect.left;
       const pointerY = clientY - rect.top;
 
-      // 현재 포인터 위치가 가리키는 캔버스 내부 절대 좌표 계산
       const canvasX = (pointerX - posX) / scale;
       const canvasY = (pointerY - posY) / scale;
 
-      // 새로운 배율 적용 후에도 포인터가 동일한 캔버스 좌표를 가리키도록 오프셋 재계산
       posX = pointerX - canvasX * newScale;
       posY = pointerY - canvasY * newScale;
       scale = newScale;
@@ -273,7 +270,6 @@
       updateTransform();
     }
 
-    // 카드 생성
     timelineData.forEach(item => {
       const fileName = item.name.replace(/\s+/g, '_');
       
@@ -293,7 +289,7 @@
       `;
 
       card.addEventListener('click', (e) => {
-        if (hasMoved) return; // 드래그 후 손을 뗐을 때는 클릭 동작 무시
+        if (hasMoved) return;
         card.classList.toggle('expanded');
         const hint = card.querySelector('.toggle-hint');
         hint.textContent = card.classList.contains('expanded') ? '접기 ▲' : '요약 펼치기 ▼';
@@ -302,7 +298,6 @@
       container.appendChild(card);
     });
 
-    // --- PC 마우스 이벤트 ---
     viewport.addEventListener('mousedown', (e) => {
       isDragging = true;
       hasMoved = false;
@@ -332,7 +327,6 @@
       zoomAtPoint(scale * zoomFactor, e.clientX, e.clientY);
     }, { passive: false });
 
-    // --- 모바일 터치 이벤트 (1손가락 드래그 + 2손가락 핀치 줌) ---
     function getTouchDistance(touches) {
       const dx = touches[0].clientX - touches[1].clientX;
       const dy = touches[0].clientY - touches[1].clientY;
@@ -386,7 +380,6 @@
       if (e.touches.length === 0) {
         isDragging = false;
       } else if (e.touches.length === 1) {
-        // 두 손가락 줌 후 한 손가락이 남았을 때 튐 방지
         isDragging = true;
         startX = e.touches[0].clientX - posX;
         startY = e.touches[0].clientY - posY;
