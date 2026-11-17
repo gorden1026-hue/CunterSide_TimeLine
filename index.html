@@ -44,9 +44,9 @@
   }
   #viewport:active { cursor: grabbing; }
 
-  /* 실제로 움직이는 도화지 */
+  /* 대형 도화지 (전체 이벤트 배치용) */
   #canvas {
-    width: 5800px;
+    width: 11500px;
     height: 1200px;
     position: absolute;
     top: 0;
@@ -62,143 +62,221 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(10, 10, 18, 0.6);
+    background: rgba(10, 10, 18, 0.65);
   }
 
-  /* 중앙 시간선 */
+  /* 중앙 메인스트림 기준선 */
   .timeline-axis {
     position: absolute;
-    top: 600px;
+    top: 560px;
     left: 0;
     width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, rgba(76,201,240,0.2), rgba(76,201,240,0.9), rgba(247,37,133,0.9), rgba(255,209,102,0.2));
-    box-shadow: 0 0 15px rgba(76, 201, 240, 0.6);
+    height: 2px;
+    background: linear-gradient(90deg, rgba(76,201,240,0.2), rgba(76,201,240,0.8), rgba(247,37,133,0.8), rgba(255,209,102,0.2));
     z-index: 1;
   }
 
   /* 사건 카드 스타일 */
   .event-card {
     position: absolute;
-    width: 300px;
-    min-height: 190px;
-    border-radius: 12px;
+    width: 270px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.75);
     background-size: cover;
     background-position: center;
+    background-color: #181822;
     z-index: 2;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
   }
   .event-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 16px 36px rgba(76, 201, 240, 0.35);
-    border-color: rgba(76, 201, 240, 0.8);
-    z-index: 10;
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(76, 201, 240, 0.35);
+    border-color: rgba(76, 201, 240, 0.85);
+    z-index: 20;
+  }
+
+  /* 메인스트림 강조 스타일 */
+  .event-card.mainstream {
+    border-color: rgba(255, 255, 255, 0.45);
+    width: 290px;
   }
 
   .card-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.88));
-    padding: 18px;
-    height: 100%;
-    min-height: 190px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.92));
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
   }
 
-  .event-era { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 5px; }
-  .event-title { font-size: 18px; font-weight: 700; color: #ffffff; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
-  .event-desc { font-size: 13.5px; line-height: 1.55; color: #e2e2e8; }
+  .event-sub { font-size: 11px; font-weight: 600; color: #a0a0b0; margin-bottom: 2px; }
+  .mainstream .event-sub { color: #4cc9f0; }
+  .event-title { font-size: 15px; font-weight: 700; color: #ffffff; padding-bottom: 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
+  
+  /* 접었다 펼 수 있는 요약 영역 */
+  .event-desc {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #dcdce2;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, margin-top 0.25s ease;
+  }
+  .event-card.expanded .event-desc {
+    max-height: 160px;
+    margin-top: 6px;
+  }
+  .toggle-hint {
+    font-size: 10px;
+    color: #777;
+    text-align: right;
+    margin-top: 4px;
+  }
 </style>
 </head>
 <body>
 
   <div class="header-bar">
     <div class="header-title">📖 카운터사이드 스토리 연표</div>
-    <div class="header-tip">💡 마우스 드래그: 자유 이동 / 마우스 휠: 확대·축소</div>
+    <div class="header-tip">💡 카드 클릭: 요약 접기/펼치기 | 마우스 드래그: 자유 이동 | 휠: 확대·축소</div>
   </div>
 
   <div id="viewport">
     <div id="canvas">
       <div class="timeline-axis"></div>
-
-      <!-- EP.1 (ep1.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('Images/ep1.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.1</div><div class="event-title">신입사원</div><div class="event-desc">기름값은 되겠군요.</div></div>
-      </div>
-      <!-- EP.2 (ep2.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 480px; background-image: url('Images/ep2.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.2</div><div class="event-title">리플레이서</div><div class="event-desc">이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?</div></div>
-      </div>
-      <!-- EP.3 (ep3.webp) -->
-      <div class="event-card" style="top: 320px; left: 810px; background-image: url('Images/ep3.webp');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.3</div><div class="event-title">옛 인연</div><div class="event-desc">Auld Lang Syne</div></div>
-      </div>
-      <!-- EP.4 (ep4.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 1140px; background-image: url('Images/ep4.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.4</div><div class="event-title">테라사이드 상</div><div class="event-desc">리플 킹, 강림.</div></div>
-      </div>
-      <!-- EP.5 (ep5.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 1470px; background-image: url('Images/ep5.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.5</div><div class="event-title">테라사이드 하</div><div class="event-desc">킹을 처리하다. 그리고 리플룩을 줍다.</div></div>
-      </div>
-      <!-- EP.6 (ep6.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 1800px; background-image: url('Images/ep6.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.6</div><div class="event-title">징조</div><div class="event-desc">유미나 빡치다</div></div>
-      </div>
-      <!-- EP.7 (ep7.webp) -->
-      <div class="event-card" style="top: 320px; left: 2130px; background-image: url('Images/ep7.webp');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.7</div><div class="event-title">구도자</div><div class="event-desc">쏠 수 있어..!!!</div></div>
-      </div>
-      <!-- EP.8 (ep8.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 2460px; background-image: url('Images/ep8.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.8</div><div class="event-title">폭풍을 부르는 자</div><div class="event-desc">우리 차례다. 스톰 브링거.</div></div>
-      </div>
-      <!-- EP.9 (ep9.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 2790px; background-image: url('Images/ep9.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.9</div><div class="event-title">클리포트 게임 Part 1</div><div class="event-desc">전 함대. 오래 기다려줬다.</div></div>
-      </div>
-      <!-- EP.9.5 (ep9_5.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 3120px; background-image: url('Images/ep9_5.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.9.5</div><div class="event-title">다정한 자와 무정한 자</div><div class="event-desc">가라앉다(물리)</div></div>
-      </div>
-      <!-- EP.10 (ep10.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 3450px; background-image: url('Images/ep10.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.10</div><div class="event-title">클리포트 게임 Part 2</div><div class="event-desc">구원기사단, 그 여정의 마지막.</div></div>
-      </div>
-      <!-- EP.11 (ep11.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 3780px; background-image: url('Images/ep11.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.11</div><div class="event-title">엑자일러</div><div class="event-desc">그대들의 부름이, 나에게 닿았다.</div></div>
-      </div>
-      <!-- EP.12 (ep12.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 4110px; background-image: url('Images/ep12.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.12</div><div class="event-title">기억 화원</div><div class="event-desc">제군들, 전쟁을 시작하자.</div></div>
-      </div>
-      <!-- EP.13 (ep13.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 4440px; background-image: url('Images/ep13.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.13</div><div class="event-title">세계를 만드는 법칙</div><div class="event-desc">이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.</div></div>
-      </div>
-      <!-- EP.14 (ep14.jpeg) -->
-      <div class="event-card" style="top: 320px; left: 4770px; background-image: url('Images/ep14.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.14</div><div class="event-title">바라</div><div class="event-desc">범 잡으러 가오.</div></div>
-      </div>
-      <!-- EP.15 (ep15.jpeg) -->
-      <div class="event-card" style="top: 660px; left: 5100px; background-image: url('Images/ep15.jpeg');">
-        <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.15</div><div class="event-title">황금나무와 가지치는 소녀</div><div class="event-desc">이야기의 끝, 어쩌면 새로운 시작</div></div>
-      </div>
-
+      <div id="card-container"></div>
     </div>
   </div>
 
   <script>
-    const viewport = document.getElementById('viewport');
+    // 스크린샷 6장 전체 판독 데이터 (name: 큰 제목 및 파일명, sub: 부제, desc: 요약, left/top: 인게임 상대 좌표)
+    const timelineData = [
+      // [구간 1: 시작 ~ EP.3]
+      { name: "어벤저", sub: "요정을 찾는 소녀", desc: "요정을 찾는 소녀의 이야기.", left: 100, top: 680 },
+      { name: "앨리스 이머전시", sub: "구 관리국 : 야크샤 전대", desc: "구 관리국 야크샤 전대의 기록.", left: 450, top: 340 },
+      { name: "관리 실패", sub: "구 관리국", desc: "구 관리국의 붕괴와 관리 실패의 날.", left: 620, top: 520 },
+      { name: "EP.1", sub: "메인스트림 - 신입사원", desc: "기름값은 되겠군요.", left: 1150, top: 520, isMain: true },
+      { name: "마지막 벚꽃이 피는 교정", sub: "신학기 조회", desc: "신학기 조회에서 벌어진 일.", left: 1220, top: 280 },
+      { name: "야차의 법도", sub: "짝을 찾는 암살자", desc: "짝을 찾는 암살자의 이야기.", left: 1220, top: 760 },
+      { name: "총탄과 가시", sub: "존 메이슨", desc: "존 메이슨 용병 사무소의 의뢰.", left: 1580, top: 200 },
+      { name: "EP.2", sub: "메인스트림 - 리플레이서", desc: "이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?", left: 1620, top: 520, isMain: true },
+      { name: "어떤 소녀와 용병의 이야기", sub: "오르카", desc: "오르카와 용병의 만남.", left: 1750, top: 760 },
+      { name: "용병과 괴도 그리고…", sub: "메이슨 용병 사무소", desc: "메이슨 용병 사무소와 괴도의 악연.", left: 1980, top: 200 },
+      { name: "비공식 수사", sub: "제4기동", desc: "제4기동수사국의 비공식 수사 기록.", left: 2050, top: 360 },
+      { name: "EP.3", sub: "메인스트림 - 옛 인연", desc: "Auld Lang Syne", left: 2150, top: 520, isMain: true },
+
+      // [구간 2: 크로스로드 ~ EP.6]
+      { name: "오퍼레이션 패스파인더", sub: "크로스로드", desc: "차원 항해 작전 패스파인더.", left: 2550, top: 300 },
+      { name: "데드 엔드 로드", sub: "델타 세븐 : 패스파인더", desc: "델타 세븐 패스파인더 부대의 사투.", left: 2750, top: 470 },
+      { name: "EP.4", sub: "메인스트림 - 테라사이드 상", desc: "리플 킹, 강림.", left: 2550, top: 700, isMain: true },
+      { name: "왕의 기억", sub: "심연의 끝에서", desc: "심연의 끝에서 마주한 왕의 기억.", left: 2950, top: 200 },
+      { name: "이어받는 자", sub: "델타 세븐", desc: "델타 세븐의 의지를 이어받는 자.", left: 3150, top: 340 },
+      { name: "EP.5", sub: "메인스트림 - 테라사이드 하", desc: "킹을 처리하다. 그리고 리플룩을 줍다.", left: 3150, top: 520, isMain: true },
+      { name: "그늘의 밑바닥", sub: "호라이즌 파이낸스", desc: "호라이즌 파이낸스의 이면.", left: 3300, top: 740 },
+      { name: "카운터즈 사가", sub: "서브컬처 연구회", desc: "서브컬처 연구회의 좌충우돌 일대기.", left: 3550, top: 380 },
+      { name: "오래된 공포", sub: "금지된 지식의 추종자들", desc: "금지된 지식을 쫓는 자들과 오래된 공포.", left: 3650, top: 600 },
+      { name: "털뭉치를 찾아라!", sub: "특별 수사", desc: "사라진 털뭉치를 찾아 떠나는 특별 수사.", left: 3800, top: 200 },
+      { name: "부서지지 않는 꽃", sub: "플로라 메이드 서비스", desc: "플로라 메이드 서비스의 이야기.", left: 4050, top: 330 },
+      { name: "홀로 남겨진 것", sub: "시그마", desc: "홀로 남겨진 존재, 시그마의 기록.", left: 4050, top: 480 },
+      { name: "미로의 끝", sub: "구 관리국 : 메이즈 전대", desc: "구 관리국 메이즈 전대의 마지막 항전.", left: 3950, top: 740 },
+      { name: "당신이 모르는 소원", sub: "아카데미 운동회", desc: "아카데미 운동회에서 펼쳐지는 소동.", left: 4400, top: 200 },
+      { name: "대마녀의 유산", sub: "카페 스트레가", desc: "카페 스트레가와 대마녀의 유산.", left: 4450, top: 560 },
+      { name: "A.R.S 특별 부활동", sub: "화이트 래빗", desc: "화이트 래빗의 특별 부활동 일지.", left: 4750, top: 200 },
+      { name: "EP.6", sub: "메인스트림 - 징조", desc: "유미나의 일상 (희소하다)", left: 4750, top: 360, isMain: true },
+      { name: "울브즈 베인 언체인드", sub: "타입 : 펜릴", desc: "봉인 해제된 펜릴의 힘.", left: 4850, top: 520 },
+
+      // [구간 3: EP.7 ~ EP.8]
+      { name: "들려오는 너", sub: "꿈을 걷는 50호선", desc: "꿈을 걷는 50호선 열차의 기묘한 이야기.", left: 5150, top: 740 },
+      { name: "EP.7", sub: "메인스트림 - 구도자", desc: "쏠 수 있어..!!!", left: 5380, top: 360, isMain: true },
+      { name: "첫 번째 수업", sub: "사이 좋게 지내요", desc: "아카데미의 첫 번째 수업.", left: 5400, top: 540 },
+      { name: "해를 부르는 궤적", sub: "나나하라 가문연합", desc: "나나하라 가문연합의 새로운 궤적.", left: 5500, top: 200 },
+      { name: "약한 자와 강한 자", sub: "민병대", desc: "민병대가 마주한 약육강식의 현실.", left: 5750, top: 680 },
+      { name: "마음의 증명", sub: "알파트릭스 이노베이션", desc: "알파트릭스 이노베이션과 마음의 증명.", left: 6050, top: 440 },
+      { name: "달을 가르는 무형", sub: "나나하라 가문연합", desc: "달을 가르는 검의 궤적.", left: 6050, top: 200 },
+      { name: "울지 않은 너를 위해", sub: "호라이즌 파이낸스", desc: "호라이즌과 친구들의 눈물 없는 이별.", left: 6080, top: 640 },
+      { name: "EP.8", sub: "메인스트림 - 폭풍을 부르는 자", desc: "T5가 좋댄다", left: 6550, top: 320, isMain: true },
+      { name: "악마, 그리고 바텐더", sub: "그레모리의 바", desc: "그레모리의 바에서 나누는 밤의 대화.", left: 6620, top: 740 },
+      { name: "의뢰와 모략", sub: "폴른 호크", desc: "폴른 호크를 둘러싼 의뢰와 모략.", left: 6820, top: 180 },
+      { name: "내 소원은…", sub: "프로젝트 오즈", desc: "프로젝트 오즈 소녀들의 간절한 소원.", left: 6950, top: 460 },
+      { name: "사육제", sub: "엘리시움 필하모닉", desc: "엘리시움 필하모닉이 연주하는 광기의 사육제.", left: 7150, top: 620 },
+      { name: "철의 기수", sub: "남부 국경수비대", desc: "남부 국경수비대 철의 기수 출격.", left: 7300, top: 760 },
+
+      // [구간 4: EP.9 ~ EP.10]
+      { name: "달이 뜨지 않는 밤", sub: "악몽의 기억", desc: "달이 뜨지 않는 밤의 악몽.", left: 7550, top: 480 },
+      { name: "네버랜드 네버모어", sub: "성장통", desc: "성장통을 겪는 아이들의 네버랜드.", left: 7850, top: 380 },
+      { name: "Three to Three", sub: "제 9호 기적심의회", desc: "제 9호 기적심의회의 심판.", left: 7950, top: 740 },
+      { name: "EP.9", sub: "메인스트림 - 클리포트 게임 Part 1", desc: "서로 포기하지 못하는 것이 있는거겠지.", left: 8250, top: 200, isMain: true },
+      { name: "EP.9.5", sub: "메인스트림 - 다정한 자와 무정한 자", desc: "가라앉다(물리)", left: 8250, top: 330, isMain: true },
+      { name: "빙류회랑", sub: "얼어붙은 시간에서", desc: "얼어붙은 시간 속 빙류회랑의 기록.", left: 8280, top: 530 },
+      { name: "EP.10", sub: "메인스트림 - 클리포트 게임 Part 2", desc: "구원기사단, 그 여정의 마지막.", left: 8800, top: 530, isMain: true },
+      { name: "마녀의 피로연", sub: "카페 스트레가", desc: "카페 스트레가에서 열리는 마녀들의 피로연.", left: 8880, top: 250 },
+      { name: "굿바이 타나베린", sub: "그리핀 라이더", desc: "그리핀 라이더의 마지막 인사.", left: 9050, top: 740 },
+      { name: "관리 종료", sub: "공개채용", desc: "공개채용과 관리 종료의 순간.", left: 9250, top: 530 },
+      { name: "리틀, 빈센트", sub: "사이프러스의 봄", desc: "사이프러스의 봄을 맞이한 빈센트.", left: 9400, top: 300 },
+      { name: "지난날의 약속", sub: "서브컬처 연구회", desc: "서브컬처 연구회가 지켜낸 지난날의 약속.", left: 9400, top: 740 },
+      { name: "별이 빛나는 밤", sub: "붉은 포도밭", desc: "붉은 포도밭 위에 수놓아진 별밤.", left: 9720, top: 300 },
+
+      // [구간 5 & 6: EP.11 ~ EP.15]
+      { name: "카운터즈 레거시", sub: "관리국 카운터 아카데미", desc: "관리국 카운터 아카데미의 유산.", left: 9750, top: 740 },
+      { name: "EP.11", sub: "메인스트림 - 엑자일러", desc: "영겁의 시간을 오로지 망집만으로 버텨왔다.", left: 10100, top: 530, isMain: true },
+      { name: "버넷 네버 다이", sub: "프리드웬 기관", desc: "프리드웬 기관의 불굴의 의지.", left: 10100, top: 740 },
+      { name: "폴른 플로어", sub: "사후 비인가 실험", desc: "사후 비인가 실험실 폴른 플로어.", left: 10300, top: 220 },
+      { name: "무대 뒤편의 세계", sub: "스완송", desc: "스완송, 무대 뒤편에서 울리는 노래.", left: 10420, top: 380 },
+      { name: "프라이드 오브 나이츠", sub: "조디악 나이츠", desc: "조디악 나이츠 기사단의 긍지.", left: 10420, top: 740 },
+      { name: "인도하는 태양", sub: "바루나 투어", desc: "바루나 투어와 인도하는 태양의 빛.", left: 10620, top: 220 },
+      { name: "마트료시카 인형", sub: "인형관", desc: "인형관에 숨겨진 마트료시카의 비밀.", left: 10740, top: 740 },
+      { name: "EP.12", sub: "메인스트림 - 기억 화원", desc: "당신에게 저의 세상은 그저 버림패일 뿐이였나요?", left: 10900, top: 530, isMain: true },
+      { name: "월광", sub: "발렌티누스 수도원", desc: "발렌티누스 수도원에 비치는 차가운 월광.", left: 10950, top: 220 },
+      { name: "EP.13", sub: "메인스트림 - 세계를 만드는 법칙", desc: "이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.", left: 11350, top: 530, isMain: true },
+      { name: "겨울 방학", sub: "황새가 물어온 별", desc: "황새가 물어온 별과 따뜻한 겨울 방학.", left: 11550, top: 740 },
+      { name: "EP.14", sub: "메인스트림 - 바라", desc: "범 잡으러 가오.", left: 11800, top: 530, isMain: true },
+      { name: "전조", sub: "클리포트", desc: "다가오는 거대한 재앙의 전조.", left: 12250, top: 530 },
+      { name: "EP.15", sub: "메인스트림 - 황금나무와 가지치는 소녀", desc: "낙원에 안주하는 것 대신, 우리는 나아가기를 택했다.", left: 12700, top: 530, isMain: true }
+    ];
+
+    // 캔버스 가로 길이를 마지막 카드에 맞춰 자동 확장
     const canvas = document.getElementById('canvas');
-    
+    canvas.style.width = '13200px';
+
+    const container = document.getElementById('card-container');
+
+    // 데이터 기반으로 카드 생성 (이름의 띄어쓰기를 언더바로 대체하여 Images/이름.png 로드)
+    timelineData.forEach(item => {
+      // 특수문자(: , ! … 등)가 파일명에 들어갈 경우를 대비해 공백만 언더바로 치환
+      const fileName = item.name.replace(/\s+/g, '_');
+      
+      const card = document.createElement('div');
+      card.className = 'event-card' + (item.isMain ? ' mainstream' : '');
+      card.style.left = item.left + 'px';
+      card.style.top = item.top + 'px';
+      card.style.backgroundImage = `url('Images/${fileName}.png')`;
+
+      card.innerHTML = `
+        <div class="card-overlay">
+          <div class="event-sub">${item.sub}</div>
+          <div class="event-title">${item.name}</div>
+          <div class="event-desc">${item.desc}</div>
+          <div class="toggle-hint">요약 펼치기 ▼</div>
+        </div>
+      `;
+
+      // 클릭 시 요약 접기/펼치기 토글
+      card.addEventListener('click', () => {
+        card.classList.toggle('expanded');
+        const hint = card.querySelector('.toggle-hint');
+        hint.textContent = card.classList.contains('expanded') ? '접기 ▲' : '요약 펼치기 ▼';
+      });
+
+      container.appendChild(card);
+    });
+
+    // 맵 드래그 및 줌 엔진
+    const viewport = document.getElementById('viewport');
     let posX = 0;
-    let posY = -150;
-    let scale = 1;
+    let posY = -100;
+    let scale = 0.85;
     let isDragging = false;
     let startX = 0;
     let startY = 0;
@@ -229,7 +307,7 @@
       e.preventDefault();
       const zoomIntensity = 0.08;
       const wheel = e.deltaY < 0 ? 1 : -1;
-      const newScale = Math.min(Math.max(0.4, scale + wheel * zoomIntensity), 2.0);
+      const newScale = Math.min(Math.max(0.25, scale + wheel * zoomIntensity), 2.0);
       scale = newScale;
       updateTransform();
     }, { passive: false });
