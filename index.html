@@ -44,7 +44,7 @@
   }
   #viewport:active { cursor: grabbing; }
 
-  /* 실제로 움직이는 도화지 (배경 이미지를 images/background.확장자 로 지정 - 확장자에 맞춰 수정 가능) */
+  /* 실제로 움직이는 도화지 */
   #canvas {
     width: 5800px;
     height: 1200px;
@@ -52,7 +52,7 @@
     top: 0;
     left: 0;
     transform-origin: 0 0;
-    background-image: url('Images/background.png');
+    background-image: url('Images/background.jpg');
     background-size: cover;
     background-position: center;
     will-change: transform;
@@ -124,61 +124,61 @@
     <div id="canvas">
       <div class="timeline-axis"></div>
 
-      <!-- EP.1 ~ EP.16 카드 전체 목록 (Images 폴더 연동) -->
-      <div class="event-card" style="top: 320px; left: 150px; background-image: url('Images/ep1.png');">
+      <!-- EP.1 ~ EP.16 카드 전체 목록 (스크린샷 확장자 적용 완료) -->
+      <div class="event-card" style="top: 320px; left: 150px; background-image: url('Images/ep1.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.1</div><div class="event-title">신입사원</div><div class="event-desc">기름값은 되겠군요.</div></div>
       </div>
-      <div class="event-card" style="top: 660px; left: 480px; background-image: url('Images/ep2.png');">
+      <div class="event-card" style="top: 660px; left: 480px; background-image: url('Images/ep2.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.2</div><div class="event-title">리플레이서</div><div class="event-desc">이면세계 테라포밍이 안되면 인간을 테라포밍하면 되잖아?</div></div>
       </div>
-      <div class="event-card" style="top: 320px; left: 810px; background-image: url('Images/ep3.png');">
+      <div class="event-card" style="top: 320px; left: 810px; background-image: url('Images/ep3.webp');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.3</div><div class="event-title">옛 인연</div><div class="event-desc">Auld Lang Syne</div></div>
       </div>
-      <div class="event-card" style="top: 660px; left: 1140px; background-image: url('Images/ep4.png');">
+      <div class="event-card" style="top: 660px; left: 1140px; background-image: url('Images/ep4.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.4</div><div class="event-title">테라사이드 상</div><div class="event-desc">리플 킹, 강림.</div></div>
       </div>
-      <div class="event-card" style="top: 320px; left: 1470px; background-image: url('Images/ep5.png');">
+      <div class="event-card" style="top: 320px; left: 1470px; background-image: url('Images/ep5.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.5</div><div class="event-title">테라사이드 하</div><div class="event-desc">킹을 처리하다. 그리고 리플룩을 줍다.</div></div>
       </div>
-      <div class="event-card" style="top: 660px; left: 1800px; background-image: url('Images/ep6.png');">
+      <div class="event-card" style="top: 660px; left: 1800px; background-image: url('Images/ep6.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.6</div><div class="event-title">징조</div><div class="event-desc">유미나의 일상 (희소하다)</div></div>
       </div>
-      <div class="event-card" style="top: 320px; left: 2130px; background-image: url('Images/ep7.png');">
+      <div class="event-card" style="top: 320px; left: 2130px; background-image: url('Images/ep7.webp');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.7</div><div class="event-title">구도자</div><div class="event-desc">쏠 수 있어..!!!</div></div>
       </div>
-      <div class="event-card" style="top: 660px; left: 2460px; background-image: url('Images/ep8.png');">
+      <div class="event-card" style="top: 660px; left: 2460px; background-image: url('Images/ep8.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.8</div><div class="event-title">폭풍을 부르는 자</div><div class="event-desc">T5가 좋댄다</div></div>
       </div>
-      <!-- EP.8.5 (파일 기준 ep9) -->
-      <div class="event-card" style="top: 320px; left: 2790px; background-image: url('Images/ep9.png');">
+      <!-- EP.9 (파일 기준 ep9.jpeg) -->
+      <div class="event-card" style="top: 320px; left: 2790px; background-image: url('Images/ep9.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.9</div><div class="event-title">클리포트 게임 Part 1</div><div class="event-desc">서로 포기하지 못하는 것이 있는거겠지.</div></div>
       </div>
-      <!-- EP.9 (파일 기준 ep10) -->
-      <div class="event-card" style="top: 660px; left: 3120px; background-image: url('Images/ep10.png');">
+      <!-- EP.9.5 (파일 기준 ep10.jpeg) -->
+      <div class="event-card" style="top: 660px; left: 3120px; background-image: url('Images/ep10.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.9.5</div><div class="event-title">다정한 자와 무정한 자</div><div class="event-desc">가라앉다(물리)</div></div>
       </div>
-      <!-- EP.10 (파일 기준 ep11) -->
-      <div class="event-card" style="top: 320px; left: 3450px; background-image: url('Images/ep11.png');">
+      <!-- EP.10 (파일 기준 ep11.jpeg) -->
+      <div class="event-card" style="top: 320px; left: 3450px; background-image: url('Images/ep11.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.10</div><div class="event-title">클리포트 게임 Part 2</div><div class="event-desc">구원기사단, 그 여정의 마지막.</div></div>
       </div>
-      <!-- EP.11 (파일 기준 ep12) -->
-      <div class="event-card" style="top: 660px; left: 3780px; background-image: url('Images/ep12.png');">
+      <!-- EP.11 (파일 기준 ep12.jpeg) -->
+      <div class="event-card" style="top: 660px; left: 3780px; background-image: url('Images/ep12.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.11</div><div class="event-title">엑자일러</div><div class="event-desc">영겁의 시간을 오로지 망집만으로 버텨왔다.</div></div>
       </div>
-      <!-- EP.12 (파일 기준 ep13) -->
-      <div class="event-card" style="top: 320px; left: 4110px; background-image: url('Images/ep13.png');">
+      <!-- EP.12 (파일 기준 ep13.jpeg) -->
+      <div class="event-card" style="top: 320px; left: 4110px; background-image: url('Images/ep13.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.12</div><div class="event-title">기억 화원</div><div class="event-desc">당신에게 저의 세상는 그저 버림패일 뿐이였나요?</div></div>
       </div>
-      <!-- EP.13 (파일 기준 ep14) -->
-      <div class="event-card" style="top: 660px; left: 4440px; background-image: url('Images/ep14.png');">
+      <!-- EP.13 (파일 기준 ep14.jpeg) -->
+      <div class="event-card" style="top: 660px; left: 4440px; background-image: url('Images/ep14.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.13</div><div class="event-title">세계를 만드는 법칙</div><div class="event-desc">이 세상의 끝에, 다른 세계에 있더라도 구하러 갈게.</div></div>
       </div>
-      <!-- EP.14 (파일 기준 ep15) -->
-      <div class="event-card" style="top: 320px; left: 4770px; background-image: url('Images/ep15.png');">
+      <!-- EP.14 (파일 기준 ep15.jpeg - 폴더에 업로드 시 표시됨) -->
+      <div class="event-card" style="top: 320px; left: 4770px; background-image: url('Images/ep15.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.14</div><div class="event-title">바라</div><div class="event-desc">범 잡으러 가오.</div></div>
       </div>
-      <!-- EP.15 (파일 기준 ep16) -->
-      <div class="event-card" style="top: 660px; left: 5100px; background-image: url('Images/ep16.png');">
+      <!-- EP.15 (파일 기준 ep16.jpeg) -->
+      <div class="event-card" style="top: 660px; left: 5100px; background-image: url('Images/ep16.jpeg');">
         <div class="card-overlay"><div class="event-era" style="color: #4cc9f0;">EP.15</div><div class="event-title">황금나무와 가지치는 소녀</div><div class="event-desc">낙원에 안주하는 것 대신, 우리는 나아가기를 택했다.</div></div>
       </div>
 
